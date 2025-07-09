@@ -1,6 +1,6 @@
 # wrlbuild-ubuntu1804
 
-This dockerfile builds an image capable of building older versions of Wind River Linux LTS on newer Linux hosts, based on Ubuntu 18.04
+This dockerfile builds an image capable of building older versions of Wind River Linux LTS on newer Linux hosts, based on Ubuntu 22.04
 
 ## Requirements
 You must have docker installed and be able to run it without root privelege. i.e. you should be a member of the 'docker' group and be able to run the following without `sudo`
