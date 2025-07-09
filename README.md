@@ -27,13 +27,13 @@ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
 
 ### Next, Create an alias in `~/.bash_aliases`
 
-This assumes you have a local mirror of the Wind River Linux repo, so replace the `/path/to/LTS24_MIRROR` with your local mirror path (not including the wrlinux-x directory in the path)
+This assumes you have a local mirror of the Wind River Linux repo, so replace the `/path/to/LTS24_MIRROR` with your local mirror path (do not set the WRL_MIRROR directly to the 'wrlinux-x' directory; files above wrlinux-x are required)
 
-If you clone directly from the Wind River git repo, then ignore the WRL_MIRROR.
+If you clone directly from the Wind River git repo, then ignore the WRL_MIRROR, or set WRL_MIRROR to the github repo, etc.
 
 Examples:
 ```
-alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror/wrlinux-x; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu2204'
+alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu2204'
 ```
 > Note: Remember to source `~/.bash_aliases` the first time after adding alias.
 
@@ -45,7 +45,7 @@ alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror/wrlinux-x; docker run 
 ```
 $ mkdir myproj && cd myproj
 $ lts24shell
-wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ git clone --branch WRLINUX_10_24_LTS $WRL_MIRROR
+wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ git clone --branch WRLINUX_10_24_LTS $WRL_MIRROR/wrlinux-x
 wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ ./wrlinux-x/setup.sh --machines=qemux86-64 --distros=wrlinux --accept-eula=yes
 ```
 - exit the shell when you're done
