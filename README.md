@@ -27,31 +27,29 @@ docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
 
 ### Next, Create an alias in `~/.bash_aliases`
 
-This assumes you have a local mirror of the Wind River Linux repo, so replace the `/path/to/LTS18_MIRROR` with your local mirror path (not including the wrlinux-x directory in the path)
+This assumes you have a local mirror of the Wind River Linux repo, so replace the `/path/to/LTS24_MIRROR` with your local mirror path (not including the wrlinux-x directory in the path)
 
 If you clone directly from the Wind River git repo, then ignore the WRL_MIRROR.
 
 Examples:
 ```
-alias lts18shell='export WRL_MIRROR=/path/to/LTS18_mirror; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
-alias lts19shell='export WRL_MIRROR=/path/to/LTS19_mirror; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
+alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror/wrlinux-x; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
 ```
 > Note: Remember to source `~/.bash_aliases` the first time after adding alias.
 
 ---
 
 ## How to use
-- run `lts18shell` (for example)
+- run `lts24shell` (for example)
 - proceed to build your WRL LTS/Yocto platform per normal use, for example:
 ```
 $ mkdir myproj && cd myproj
-$ lts18shell
-wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ git clone --branch WRLINUX_10_18_LTS $WRL_MIRROR/wrlinux-x
+$ lts24shell
+wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ git clone --branch WRLINUX_10_24_LTS $WRL_MIRROR
 wrlbuild@eee4d9ac3be1:/home/rmoore/myproj$ ./wrlinux-x/setup.sh --machines=qemux86-64 --distros=wrlinux --accept-eula=yes
 ```
 - exit the shell when you're done
 - invoke the shell whenever you need to build WR Linux
-
 
 ---
 
@@ -60,7 +58,7 @@ Some changes are required to run `runqemu` in the build container.
 
 First, use this as your alias
 ```
-alias lts18tun='export WRL_MIRROR=/opt/wr/wrl/lts18/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
+alias lts24tun='export WRL_MIRROR=/opt/wr/wrl/lts18/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
 
 ```
 
@@ -83,21 +81,3 @@ test alias, mapping in /dev/net/tun:
 
 alias lts18tun='export WRL_MIRROR=/opt/wr/wrl/lts18/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
 ```
-
-### Alternative to Alias: Create a bash function in `~/.bashrc`
-
-Example:
-```
-lts18shell() {
-    export WRL_MIRROR=/path/to/LTS18mirror;   
-    docker run --rm -it \
-    -w $(pwd) -u wrlbuild \
-    -e WRL_MIRROR=${WRL_MIRROR} \
-    -e UID=1000 -e GID=1000 \
-    -e LANG=en_US.UTF-8 \
-    -v ${WRL_MIRROR}:${WRL_MIRROR} \
-    -v $(pwd):$(pwd) \
-    wrlbuild-ubuntu1804
-}
-```
-> Note: set WRL_MIRROR to the location of the local mirror for your version of WR Linux, or do it inside of the alias or function. Remember to source `~/.bashrc` the first time after adding function.
