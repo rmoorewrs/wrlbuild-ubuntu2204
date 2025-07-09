@@ -1,4 +1,4 @@
-# wrlbuild-ubuntu1804
+# wrlbuild-ubuntu2204
 
 This dockerfile builds an image capable of building older versions of Wind River Linux LTS on newer Linux hosts, based on Ubuntu 22.04
 
@@ -18,7 +18,7 @@ $ . ./build.sh
 Or just open a shell in the same directory as the `Dockerfile` and run
 ```
 docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
-    -f Dockerfile -t wrlbuild-ubuntu1804 .
+    -f Dockerfile -t wrlbuild-ubuntu2204 .
 ```
 
 ---
@@ -33,7 +33,7 @@ If you clone directly from the Wind River git repo, then ignore the WRL_MIRROR.
 
 Examples:
 ```
-alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror/wrlinux-x; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
+alias lts24shell='export WRL_MIRROR=/path/to/LTS24_mirror/wrlinux-x; docker run --rm -it --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu2204'
 ```
 > Note: Remember to source `~/.bash_aliases` the first time after adding alias.
 
@@ -58,7 +58,7 @@ Some changes are required to run `runqemu` in the build container.
 
 First, use this as your alias
 ```
-alias lts24tun='export WRL_MIRROR=/opt/wr/wrl/lts18/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
+alias lts24tun='export WRL_MIRROR=/opt/wr/wrl/lts24/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu2204'
 
 ```
 
@@ -79,5 +79,5 @@ Note: if you get error messages about device `net0` being unavailable, you might
 ```
 test alias, mapping in /dev/net/tun:
 
-alias lts18tun='export WRL_MIRROR=/opt/wr/wrl/lts18/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu1804'
+alias lts24tun='export WRL_MIRROR=/opt/wr/wrl/lts22/mirror; docker run --rm -it --privileged -v /sbin/iptables:/sbin/iptables -v /dev/net/tun:/dev/net/tun --workdir $(pwd) -u wrlbuild -e WRL_MIRROR=$WRL_MIRROR -e UID=$(id -u) -e GID=$(id -g) -e LANG=en_US.UTF-8 -v $WRL_MIRROR:$WRL_MIRROR -v $(pwd):$(pwd) wrlbuild-ubuntu2204'
 ```
